@@ -1,0 +1,103 @@
+1ER CLASE:
+React Router es un contenedor, el cual dependiendo la ruta que yo quiera mostrar, va a ser el contenido que nos va a permitir mostrar.
+El componente padre es "BrowserRouter" (Router tambien nombrado), el cual nos permite cargar todas las rutas que queramos, utilizando "Route" por cada una de las rutas de nuestro programa.
+Las rutas reciben ciertas propiedades:
+  →"Path": recibe la ruta relativa de la ruta que queremos cargar; encuentra la ruta de lo que quiere cargar, y por medio de la url, tomando la path, muestra la path coincidente a dicho componente.
+  →"element": recibe el componente a renderizar en la ruta correspondiente.
+El componente "Routes", es un componente que nos permite cargar la 1er ruta que entre en coincidencia con lo ingresado en la url. Routes es el componente contenedor de las Route
+
+2DA CLASE: ¿Como declarar una ruta?
+Los componentes que se tratan como paginas, se pueden introducir al componente "Route", por medio de la propiedad 'element', permitiendonos llamar al componente a renderizar en dicha ruta, y asi una vez que entremos a esa ruta, nos muestre lo que renderizar ese componente.
+
+3RA CLASE: Ruta 404
+Supongamos que el user pone en su url una ruta que no existe. Para este caso, nosotros deberiamos mostrarle una pagina de error. Esto se logra creando otra Route, con el 'path="*"'.
+Este asterisco va a detectar que cualquier ruta, va a cargar el componente de error; siempre va al final de "Routes", debido a la jerarquía.
+
+4TA CLASE: Links y NavLinks
+Si llegamos a utilizar las etiquetas <a>, al momento de entrar a cada link, estariamos provocando un renderizado de nuestra app, lo cual no es recomendado. Para este, React Router nos ofrece dos componentes: "Link" y "NavLink", simulando la tag <a>, y no provocaran el renderizado.
+El atributo 'href', es reemplazado por 'to', en donde estara las ruta del componente que queremos visitar.
+El "NavLink" funciona igual que el "Link", pero a su vez, nos ofrece el atributo 'className', permitiendonos saber en que seccion nos encontramos, como un cambio de color, o borde, dandole una propiedad de CSS
+
+5TA CLASE: useParams o paso de Parametros
+La url nos puede servir para pasar parametros, datos, que se encuentran en cierto segmento de nuestra ruta, pudiendose acceder de manera dinamica (Segmento Dinamico), y coincidiendo con cualquier valor en el segmento. Ejemplo: el segmento /user/:userId, puede matchear con /user/123.
+Para usar dinamicamente en el Path, un parametro, debemos interponerle 2 puntos ":" al parametro que queremos utilizar.
+Las rutas pueden estar definidas por varios segmentos (un segmento esta dividido por //, es decir /user/id, estar ruta tiene 2 segmentos).
+Todos los segmentos de nuestra Ruta, se unen para formar una ruta final.
+Por medio del hook "useParams" en el componente que queremos consumir los datos, obtenemos los datos pasados por medio de la url, gracias al segmento dinamico. Este hook nos permite tener "url amigables".
+
+6TA CLASE: useLocation y useHistory // Parametros de consulta
+La API de Location nos muestra informacion sobre la URL; es un objeto. Document y Window tienen una interfaz ".location".
+Posee varias propiedades y varios metodos:
+  →'.href': muestra la URL completa.
+  →'.protocol': muestra el protocolo HTTP.
+  →'.host': muestra el hostname y port.
+  →'.port': muestra el numero del puerto.
+  →'.pathname': compuesto por "/", muestra la ruta.
+  →'.search': contiene "?", seguido de los parametros de consulta (query).
+  →'.username': contiene el usuario especificado en el dominio.
+  →'.hash': seguido de un "#", mostrando el id de la URL.
+  →'.password': muestra el password especificado.
+  →'.origin': contiene la forma origen de la URL.
+Es recomendado que en una app con React Router, no se utilice la interfaz "window.location". A cambio de esto, el propio React Router nos ofrece un objeto, similar a window.location, el cual nos muestra los datos de "donde estamos", usando 'useLocation()':
+  '{
+    pathname: "/bbq/pig-pickins",
+    search: "?campaign=instagram",
+    hash: "#menu",
+    state: null,
+    key: "aefz24ie"
+  }'
+
+  ■'pathname': esta en la URL, es la unica parte en la que las rutas coinciden.
+  ■'search': en esta parte obtenemos los parametros que deseamos buscar. Gracias a la clase "URLSearchParams" (o por medio de la destructuracion), la cual nos ofrece varios metodos, podemos obtener los parametros de busqueda, transformarlo en un objeto, y obtener los datos que queramos.
+  ■'hash' 
+  ■'state'
+  ■'key'
+
+Por otro lado, tenemos la API de History, la cual nos permitira hacer cambios en lo que se refiere al historial de nuestro navegador. A medida que vamos navegando, el navegador guarda en su "historial stack" (o pila), todas las rutas que fuimos visitando. El enrutamiento del lado del cliente permite a los desarrolladores manipular la pila del historial del navegador sin realizar una solicitud de documento al servidor.
+Es un objeto, que nos permite hacer cambios en la URL e historial de manera programada.
+Podemos usar la api con "window.history", la cual nos permitira acceder a ciertas propiedades y metodos (es recomendable no utilizar esta opcion y usar useNavigate):
+  →".length": nos devuelve un numero, mostrando la cantidad de elementos en nuestro historial o sesion.
+  →".state": nos devuelve un valor, representando el estado en la parte superior del historial.
+
+  ■'back': vuelve a la pagina anterior que aparece en el historial. 
+  ■'forward': va a la pagina siguiente que aparece en el historial.
+  ■'pushState': añade una data al historial con los datos especificados, y recibe 3 parametros:
+    →`state`: objeto relacionado con la informacion a introducir al historial.
+    →`title`: titulo del estado.
+    →`URL`
+Tambien podemos usar el hook "useNavigate". Este hook recibe 1 parametro:
+  → La informacion que nosotros deseamos introducir (como pushState) a nuestro history stack.
+
+7MA CLASE: Redirecciones
+Una redireccion sirve para que luego de cierta accion, se redirija al usuario a otra pagina. React Router nos ofrece un componente para esto, "<Navigate", el cual nos permite cambiar la ubicacion actual cuando se renderiza.
+
+8VA CLASE: Nested Routes y Outlet
+Las rutas pueden tener rutas hijos, y las porciones de estas rutas, forman los segmentos de nuestra URL.
+Una unica URL puede coincidir con varias rutas anidadas; esto permite el anidamiento automatico por medio de <Outlet>, <RelativeLink>,etc.
+Supongamos que una seccion debe tener subsecciones, entonces una ruta, tiene rutas hijas.
+Una vez que se defina la ruta del componente Padre (<Route path="/react/*" element={<ReactTopics/>}), dentro de dicho componente, se va a tener que importar el componente "Routes", para definir todas las rutas hijas o "anidadas". Se puede definir de manera dinamica por medio de los parametros.
+Por medio del componente <Outlet />, el cual se usa en el componente padre, en este caso, <ReacTopics>, podemos representar o pintar los componentes hijos que recibamos; utilizado para renderizar la proxima coincidencia.
+Por medio del atributo index, vamos a renderizar el componente cuando estemos en la ruta padre (/react/). Esto se pone en lugar del path, y coinciden cuando una ruta principal coincide, pero las secundarias no.
+
+9NA CLASE: Rutas Privadas
+Las rutas privadas son rutas que no aparecen hasta que el usuario no se autentique.
+Para eso, vamos a crear un componente, encargardo de manejar las rutas privadas de nuestra app.
+<PrivateRoutes> es similar al <Routes>, nada mas, que va a evaluar si el usuario esta logueado, mostrara una cosa, y sino, redirigira a otro lugar. Existen varias formas de crear este componente de rutas privadas.
+  →Dashboard es nuestro componente privado en esta primer forma, por lo que al momento de poner el elemento en la Route de App.js, lo que hacemos, es involucrarlo como un child de <PrivateRoute>.
+  →La 2da forma es similar a la primera, en lugar de pasar el prop como {children}, se utiliza el componente <outlet>. Y en App.js, la Route, tiene una Route en su interior, que es el componente privado.
+
+10MA CLASE:Rutas en produccion
+React Router, hace un conditional render, para asi ver un contenido u otro; modifica la URL y hace un conditional render del contenido que queremos ver. La ventaja que tiene es que modifica la url de nuestra pagina. Debemos tener un recurso del lado del servidor, para que al momento de mandar a produccion, nos muestre el componente correcto.
+Ej: al usuario le gusto una seccion, y la guarda en sus favoritos. Al volver a entrar al link, esto va a mostrar un "404", ya que del lado del servidor, no hay nada que soporte el contenido de esa ruta.
+Mientras se cargue la app desde la ruta base, no habra problema, pero el problema es cuando se accede a una ruta especifica de manera inesperada. Ahi, tenemos que tener una "estrategia", como lo puede ser
+
+EXTRA: SSR
+El Server Side Rendering (SSR) es que el servidor agarra todos los datos, los renderiza, y crea un unico archivo HTML (o un bundle, el cual es un archivo que "fusiona" todos los archivos js, para que el navegador no haga multiples peticiones), con su CSS y JS. El servidor renderiza todos los request que reciba. En react, se renderiza la SPA en el servidor, y se manda al cliente ya renderizada; primero muestra la pagina, y luego nos permite interactuar con ella.
+El Client Side Rendering (CSR), comienza con una solicitud HTTP que llega al servidor, el servidor devuelve un esqueleto HTML que tiene que mostrar. Cuando vuelve la informacion al cliente, el navegador interpreta la informacion, la renderiza y la muestra.
+
+11VA CLASE: Hash Router
+Supongamos que nuestra app es una SPA, la cual no hace falta meterle un backend ya que consume los datos desde una API, y queremos permitirle al usario, que entre a cierta seccion de nuestra app sin tener que estar en la ruta base. Para eso, React Router nos ofrece el componente <HashRouter>.
+Este componente es recomendado usarlo cuando la URL no puede ser mandada al servidor por x razon. Lo que hace, es darnos la posibilidad de almacenar la ubicacion actual, en la propiedad location.hash, y asi nunca enviarsela al server.
+Utiliza la propiedad hash del useLocation, dandonos la posibilidad de formar las rutas. Por medio del "#", le decimos que luego de este signo, seguimos en la misma ruta, que queremos acceder a una carpeta en dicha ruta.
+Este componente se utiliza como un <BrowserRouter>.
+Nos da la posibilidad de evitar que el usuario no se encuentre con una pagina de error.
